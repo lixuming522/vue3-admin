@@ -17,6 +17,7 @@ const __APP_INFO__ = {
   buildTimestamp: Date.now(),
 };
 
+console.log("sss");
 const pathSrc = resolve(__dirname, "src");
 
 // Vite配置  https://cn.vitejs.dev/config

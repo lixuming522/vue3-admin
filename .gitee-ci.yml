@@ -1,3 +1,4 @@
+version: 1.0
 stages:
   - build
   - test
@@ -7,19 +8,23 @@ build_job:
   stage: build
   script:
     - echo "开始构建..."
-    - npm install # 或者使用yarn等包管理工具
-    - npm run build # 根据实际情况调整命令
+    - npm install # 或者使用其他包管理工具如yarn
+    - npm run build
+  only:
+    - master # 仅当push到master分支时触发
 
 test_job:
   stage: test
   script:
     - echo "运行测试..."
     - npm test # 执行单元测试或其他类型的测试
+  only:
+    - master # 仅当push到master分支时触发
 
 deploy_job:
   stage: deploy
   script:
     - echo "开始部署..."
-    - bash ./deploy.sh # 这里可以是任何你用来部署的脚本，例如scp上传文件到服务器，或者调用云服务商的API
+    - bash ./deploy.sh # 根据需要编写部署脚本
   only:
-    - master # 仅当push到master分支时才触发部署
+    - master # 仅当push到master分支时触发

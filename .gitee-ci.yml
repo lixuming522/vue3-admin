@@ -6,9 +6,7 @@ stages:
 build_job:
   stage: build
   script:
-    - echo "安装 pnpm..."
-    - npm install -g pnpm
-
+    - pnpm config set registry https://registry.npmmirror.com
     - echo "清理旧依赖..."
     - rm -rf node_modules
 

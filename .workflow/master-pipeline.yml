@@ -16,9 +16,50 @@ stages:
       - step: build@nodejs
         name: build_nodejs
         displayName: Nodejs 构建
-        nodeVersion: 21.5.0
+        nodeVersion: 18.16.0
         commands:
-          - npm install && rm -rf ./dist && npm run build
+          - 'version: 1.0'
+          - ''
+          - 'image: node:18.18.0'
+          - ''
+          - 'cache:'
+          - '  - key: ${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-pnpm-store'
+          - '    paths:'
+          - '      - ~/.pnpm-store/'
+          - '    policy: pull-push'
+          - '  - key: ${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-node-modules'
+          - '    paths:'
+          - '      - node_modules/'
+          - '    policy: pull-push'
+          - ''
+          - 'stages:'
+          - '  - install'
+          - '  - build'
+          - ''
+          - 'install_job:'
+          - '  stage: install'
+          - '  script:'
+          - '    - echo "安装 pnpm..."'
+          - '    - npm install -g pnpm'
+          - '    - echo "设置 pnpm 淘宝镜像..."'
+          - '    - pnpm config set registry https://registry.npmmirror.com'
+          - '    - pnpm config get registry # 确认镜像源是否设置成功'
+          - '    - pnpm config set fetch-timeout 600000 # 增加超时时间'
+          - '    - echo "清理旧依赖..."'
+          - '    - rm -rf node_modules'
+          - '    - echo "安装项目依赖..."'
+          - '    - pnpm config set ignore-scripts true'
+          - '    - pnpm install --legacy-peer-deps || (sleep 5 && pnpm install --legacy-peer-deps) # 添加重试逻辑'
+          - '  only:'
+          - '    - master'
+          - ''
+          - 'build_job:'
+          - '  stage: build'
+          - '  script:'
+          - '    - echo "开始构建项目..."'
+          - '    - pnpm run build'
+          - '  only:'
+          - '    - master'
         artifacts:
           - name: BUILD_ARTIFACT
             path:

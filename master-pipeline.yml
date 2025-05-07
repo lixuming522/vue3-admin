@@ -1,6 +1,6 @@
 version: '1.0'
 
-# 使用 Node.js 18.x 镜像（兼容性较好）
+# 使用 Node.js 18.x 镜像（兼容性较好！）
 image: node:18.18.0
 
 # 缓存 pnpm store 和 node_modules 来加速构建

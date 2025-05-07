@@ -13,19 +13,23 @@ stages:
     strategy: naturally
     trigger: auto
     steps:
-      - step: build@docker
-        name: build_docker
-        displayName: 镜像构建
-        type: account
-        repository: https://gitee.com/xu_ming_li/vue3-element-admin.git
-        username: '18902871087'
-        password: lxm5201314
-        tag: ${GITEE_PIPELINE_BUILD_NUMBER}
-        dockerfile: ./Dockerfile
-        context: ''
-        artifacts: []
-        isCache: true
-        parameter: {}
+      - step: build@nodejs
+        name: build_nodejs
+        displayName: Nodejs 构建
+        nodeVersion: 18.16.0
+        commands:
+          - '# 设置NPM源，提升安装速度'
+          - npm config set registry https://registry.npmmirror.com
+          - ''
+          - '# 执行编译命令'
+          - npm install && npm run build
+        artifacts:
+          - name: BUILD_ARTIFACT
+            path:
+              - ./dist
+        caches:
+          - ~/.npm
+          - ~/.yarn
         notify: []
         strategy:
           retry: '0'
@@ -34,7 +38,7 @@ stages:
         displayName: 上传制品
         dependArtifact: BUILD_ARTIFACT
         artifactName: output
-        dependsOn: build_docker
+        dependsOn: build_nodejs
   - name: release
     displayName: 发布
     strategy: naturally

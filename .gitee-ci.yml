@@ -11,19 +11,21 @@ build_job:
 
     # Step 2: 加载 nvm
     - export NVM_DIR="$HOME/.nvm"
-    - source "$NVM_DIR/nvm.sh"
+    - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
     # Step 3: 安装并使用 Node.js 18
     - nvm install 18
     - nvm use 18
-    - node -v
-    - npm -v
+    - echo "当前Node版本：$(node -v)"
+    - echo "当前NPM版本：$(npm -v)"
 
-    # Step 4: 安装依赖（跳过脚本避免 husky 报错）
+    # Step 4: 设置 npm 忽略脚本（防止 husky 报错）
     - npm config set ignore-scripts true
+
+    # Step 5: 安装依赖
     - npm install --legacy-peer-deps
 
-    # Step 5: 构建项目
+    # Step 6: 构建项目
     - npm run build
 
   only:

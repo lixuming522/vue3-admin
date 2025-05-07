@@ -1,7 +1,9 @@
 version: '1.0'
 
+# 使用 Node.js 18.x 镜像（兼容性较好）
 image: node:18.18.0
 
+# 缓存 pnpm store 和 node_modules 来加速构建
 cache:
   - key: ${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-pnpm-store
     paths:
@@ -17,29 +19,25 @@ stages:
 install_job:
   stage: install
   script:
-    - echo "安装 pnpm..."
+    # 安装 pnpm
     - npm install -g pnpm
-
-    - echo "设置 pnpm 淘宝镜像..."
+    
+    # 设置 pnpm 淘宝镜像
     - pnpm config set registry https://registry.npmmirror.com
-    - pnpm config get registry # 确认是否设置成功1
-
-    - echo "设置超时时间..."
-    - pnpm config set fetch-timeout 600000
-
-    - echo "清理旧依赖..."
-    - rm -rf node_modules
-
-    - echo "安装项目依赖..."
-    - pnpm config set ignore-scripts true
-    - pnpm install --legacy-peer-deps || (sleep 5 && pnpm install --legacy-peer-deps)
-  only:
-    - master
+    
+    # 确认 pnpm 配置是否设置成功
+    - pnpm config get registry
+    
+    # 清理旧的依赖（可选）
+    - rm -rf node_modules .pnpm-store || true
+    
+    # 使用 pnpm 安装依赖
+    - pnpm install --frozen-lockfile || (sleep 5 && pnpm install --frozen-lockfile)
 
 build_job:
   stage: build
   script:
-    - echo "开始构建项目..."
+    - echo "开始构建..."
     - pnpm run build
   only:
     - master

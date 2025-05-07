@@ -22,7 +22,7 @@ stages:
           - pnpm config set registry https://registry.npmmirror.com
           - ''
           - '# 执行编译命令'
-          - pnpm install && npm run build
+          - pnpm install && pnpm run build
         artifacts:
           - name: BUILD_ARTIFACT
             path:

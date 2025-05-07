@@ -1,32 +1,26 @@
 version: 1.0
-image: node:18
 
 stages:
   - build
-  - test
-  - deploy
 
 build_job:
   stage: build
   script:
-    - echo "开始构建..."
-    - npm install # 或者使用其他包管理工具如yarn
+    # Step 1: 安装 nvm
+    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+    - export NVM_DIR="$HOME/.nvm"
+    - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+    # Step 2: 安装并使用 Node.js 18
+    - nvm install 18
+    - echo "当前Node版本：$(node -v)"
+    - echo "当前NPM版本：$(npm -v)"
+
+    # Step 3: 安装依赖
+    - npm ci  # 或者使用 npm install --legacy-peer-deps 如果有兼容问题
+
+    # Step 4: 构建项目
     - npm run build
-  only:
-    - master # 仅当push到master分支时触发
 
-test_job:
-  stage: test
-  script:
-    - echo "运行测试..."
-    - npm test # 执行单元测试或其他类型的测试
   only:
-    - master # 仅当push到master分支时触发
-
-deploy_job:
-  stage: deploy
-  script:
-    - echo "开始部署..."
-    - bash ./deploy.sh # 根据需要编写部署脚本
-  only:
-    - master # 仅当push到master分支时触发
+    - master

@@ -19,8 +19,7 @@ stages:
         nodeVersion: 21.5.0
         commands:
           - '# 设置NPM源，提升安装速度'
-          - npm config set registry https://registry.npmmirror.com
-          - ''
+          - npm install -g pnpm
           - '# 执行编译命令'
           - pnpm install && pnpm run build
         artifacts:

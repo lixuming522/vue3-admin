@@ -8,18 +8,22 @@ build_job:
   script:
     # Step 1: 安装 nvm
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+    # Step 2: 加载 nvm
     - export NVM_DIR="$HOME/.nvm"
-    - [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    - source "$NVM_DIR/nvm.sh"
 
-    # Step 2: 安装并使用 Node.js 18
+    # Step 3: 安装并使用 Node.js 18
     - nvm install 18
-    - echo "当前Node版本：$(node -v)"
-    - echo "当前NPM版本：$(npm -v)"
+    - nvm use 18
+    - node -v
+    - npm -v
 
-    # Step 3: 安装依赖
-    - npm ci  # 或者使用 npm install --legacy-peer-deps 如果有兼容问题
+    # Step 4: 安装依赖（跳过脚本避免 husky 报错）
+    - npm config set ignore-scripts true
+    - npm install --legacy-peer-deps
 
-    # Step 4: 构建项目
+    # Step 5: 构建项目
     - npm run build
 
   only:

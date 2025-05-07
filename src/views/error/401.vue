@@ -4,7 +4,7 @@
     <el-row>
       <el-col :xs="24" :span="12">
         <h1 class="text-6xl font-bold text-[#484848]">Oops!</h1>
-        <h2>你没有权限去该页面111</h2>
+        <h2>你没有权限去该页面1111</h2>
         <h6>如有不满请联系你领导</h6>
         <div class="flex flex-col items-start gap-1.5 text-sm">
           <span>或者你可以去:</span>

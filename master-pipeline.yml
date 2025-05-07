@@ -22,7 +22,7 @@ install_job:
 
     - echo "设置 pnpm 淘宝镜像..."
     - pnpm config set registry https://registry.npmmirror.com
-    - pnpm config get registry # 确认是否设置成功
+    - pnpm config get registry # 确认是否设置成功1
 
     - echo "设置超时时间..."
     - pnpm config set fetch-timeout 600000

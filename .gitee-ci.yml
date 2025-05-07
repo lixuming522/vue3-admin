@@ -6,7 +6,7 @@ stages:
 build_job:
   stage: build
   script:
-    - set -x  # 启用调试模式
+    - set -x  # 启用调试模式1
     - echo "开始安装 nvm..."
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
     - echo "加载 nvm..."

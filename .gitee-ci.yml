@@ -21,9 +21,9 @@ build_job:
     - echo "清理旧依赖..."
     - rm -rf node_modules package-lock.json
     - echo "安装项目依赖..."
-    - npm config set ignore-scripts true
-    - npm install --legacy-peer-deps
+    - pnpm config set ignore-scripts true
+    - pnpm install --legacy-peer-deps
     - echo "构建项目..."
-    - npm run build
+    - pnpm run build
   only:
     - master

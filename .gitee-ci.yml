@@ -1,12 +1,29 @@
+version: 1.0
+
+# 定义资源限制和镜像
 image: node:18.18.0
 
+# 启用缓存（加速依赖安装）
+cache:
+  key: ${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - ~/.pnpm-store/  # 如果使用 pnpm
+
 stages:
+  - install
   - build
 
-build_job:
-  stage: build
+# 安装依赖阶段
+install_job:
+  stage: install
   script:
+    - echo "安装 pnpm..."
+    - npm install -g pnpm
+
+    - echo "设置 pnpm 淘宝镜像..."
     - pnpm config set registry https://registry.npmmirror.com
+
     - echo "清理旧依赖..."
     - rm -rf node_modules
 
@@ -14,6 +31,13 @@ build_job:
     - pnpm config set ignore-scripts true
     - pnpm install --legacy-peer-deps
 
+  only:
+    - master  # 仅在 master 分支触发
+
+# 构建阶段
+build_job:
+  stage: build
+  script:
     - echo "开始构建项目..."
     - pnpm run build
 

@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - master # 如果主分支名为 main，请修改此处
 
 jobs:
   build:
@@ -32,9 +32,6 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v2
@@ -46,3 +43,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          # 确保静态文件位于发布目录的根目录下
+          # 如果构建输出不在 dist 根目录下，可能需要指定具体的子目录

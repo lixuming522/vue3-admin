@@ -23,7 +23,7 @@ const pathSrc = resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd());
   return {
-    base: "/vue3-admin/", // 替换为你的仓库名
+    base: "./", // 替换为你的仓库名
     resolve: {
       alias: {
         "@": pathSrc,

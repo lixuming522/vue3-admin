@@ -25,7 +25,7 @@ jobs:
 
       - name: Verify installation
         run: ls -la node_modules/.bin/vite node_modules/.bin/vue-tsc
-        # 确保这些二进制文件存在
+        # 确保这些二进制文件存在1
 
       - name: Build project
         run: pnpm run build
@@ -35,5 +35,4 @@ jobs:
         with:
           repository_name: lixuming522/vue3-admin
           github_token: ${{ secrets.GH_PAT }}
-          ublish_dir: ./dist
-          base: /vue3-admin/
+          publish_dir: ./dist

@@ -3,10 +3,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # 确保这是你想要触发构建的分支名称
+      - master # 根据需要替换为你的主分支名称
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,21 +22,6 @@ jobs:
 
       - name: Build project
         run: pnpm run build
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2 # 修改为 v2
-        with:
-          name: dist
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

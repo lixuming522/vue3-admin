@@ -3,11 +3,14 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # 根据需要替换为你的主分支名称
+      - master # 如果你的主分支是 main，请修改为 main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,22 +19,27 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-          
-      - name: Install pnpm
-        run: npm install -g pnpm
-        
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
       - name: Install dependencies
         run: pnpm install
-
-      - name: Verify installation
-        run: ls -la node_modules/.bin/vite node_modules/.bin/vue-tsc
-        # 确保这些二进制文件存在
+        # 如果你已提交 pnpm-lock.yaml，可以改为 --frozen-lockfile
 
       - name: Build project
         run: pnpm run build
+        # 确保 package.json 中有 "build": "vite build"
+
+      - name: Verify dist directory
+        run: ls -la dist/
+        # 可选：查看构建输出内容，确保 index.html 存在
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_PAT }} # 使用自定义 PAT token
           publish_dir: ./dist

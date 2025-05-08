@@ -23,10 +23,6 @@ jobs:
       - name: Build project
         run: pnpm run build
 
-      # 注意：此步骤会覆盖仓库根目录下的文件，请谨慎操作
-      - name: Move dist to root
-        run: cp -r dist/* .
-
   deploy:
     needs: build
     permissions:
@@ -37,5 +33,10 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

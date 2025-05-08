@@ -1,6 +1,6 @@
 {
   "name": "vue3-element-admin",
-  "homepage": ".",
+  "homepage": "https://lixuming522.github.io/vue3-admin",
   "description": "Vue3 + Vite + TypeScript + Element-Plus 的后台管理模板，vue-element-admin 的 Vue3 版本",
   "version": "2.27.0",
   "private": true,

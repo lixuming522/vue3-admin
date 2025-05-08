@@ -23,6 +23,7 @@ const pathSrc = resolve(__dirname, "src");
 export default defineConfig(({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd());
   return {
+    base: "./",
     resolve: {
       alias: {
         "@": pathSrc,

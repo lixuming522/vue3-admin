@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # 如果主分支名为 main，请修改此处
+      - master # 确保这是你想要触发构建的分支名称
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
         run: pnpm run build
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2 # 修改为 v2
         with:
           name: dist
           path: dist
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: dist
 
@@ -43,5 +43,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          # 确保静态文件位于发布目录的根目录下
-          # 如果构建输出不在 dist 根目录下，可能需要指定具体的子目录

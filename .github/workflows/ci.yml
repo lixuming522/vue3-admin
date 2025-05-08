@@ -33,5 +33,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
+          repository-name: lixuming522/vue3-admin
           github_token: ${{ secrets.GH_PAT }}
-          publish_dir: dist
+          branch: gh-pages
+          folder: dist

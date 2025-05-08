@@ -3,12 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # 根据需要替换为你的主分支名称
+      - master
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x' # 使用最新的LTS版本或适合你项目的Node.js版本
+          node-version: '20'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -24,24 +23,23 @@ jobs:
       - name: Build project
         run: pnpm run build
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: built-files
+          name: dist
           path: dist
 
   deploy:
-    needs: build-and-deploy
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v2
         with:
-          name: built-files
+          name: dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

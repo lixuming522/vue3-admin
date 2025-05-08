@@ -21,7 +21,7 @@ jobs:
         run: npm install -g pnpm
         
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Verify installation
         run: ls -la node_modules/.bin/vite node_modules/.bin/vue-tsc

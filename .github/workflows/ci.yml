@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
       - name: Install dependencies
         run: pnpm install
@@ -23,10 +23,9 @@ jobs:
       - name: Build project
         run: pnpm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+      # 注意：此步骤会覆盖仓库根目录下的文件，请谨慎操作
+      - name: Move dist to root
+        run: cp -r dist/* .
 
   deploy:
     needs: build

@@ -25,7 +25,7 @@ jobs:
 
       - name: Verify installation
         run: ls -la node_modules/.bin/vite node_modules/.bin/vue-tsc
-        # 确保这些二进制文件存在1
+        # 确保这些二进制文件存在
 
       - name: Build project
         run: pnpm run build

@@ -36,4 +36,4 @@ jobs:
           repository_name: lixuming522/vue3-admin
           github_token: ${{ secrets.GH_PAT }}
           publish_dir: ./dist
-          publish_branch: master
+          publish_branch: gh-pages

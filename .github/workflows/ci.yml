@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master # 根据需要替换为你的主分支名称
+      - main # 根据需要替换为你的主分支名称
 
 jobs:
   build-and-deploy:
@@ -33,7 +33,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          repository_name: lixuming522/vue3-admin
           github_token: ${{ secrets.GH_PAT }}
           publish_dir: ./dist
-          publish_branch: gh-pages

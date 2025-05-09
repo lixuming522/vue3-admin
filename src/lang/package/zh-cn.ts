@@ -12,7 +12,7 @@ export default {
     light: "明亮",
     username: "用户名",
     password: "密码",
-    login: "登 录",
+    login: "登 录1",
     captchaCode: "验证码",
     capsLock: "大写锁定已打开",
     rememberMe: "记住我",

@@ -209,6 +209,3 @@ Thanks to all the contributors!
 ② 直接添加微信 **`haoxianrui`** 备注「前端/后端/全栈」。
 
 ![有来技术公众号](https://foruda.gitee.com/images/1737108820762592766/3390ed0d_716974.png)
-
-
-test....
